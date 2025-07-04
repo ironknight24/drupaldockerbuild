@@ -38,3 +38,33 @@ docker-compose down
 ```
 
 This will stop and remove the containers.
+
+## Jenkins Pipeline
+
+This project includes a `Jenkinsfile` to automate the build process of the Docker image.
+
+### How to Run the Jenkins Pipeline
+
+1.  **Create a New Pipeline Job:**
+    *   In your Jenkins dashboard, click on **New Item**.
+    *   Enter a name for your pipeline (e.g., "drupal-docker-build").
+    *   Select **Pipeline** and click **OK**.
+
+2.  **Configure the Pipeline:**
+    *   Scroll down to the **Pipeline** section.
+    *   For **Definition**, select **Pipeline script from SCM**.
+    *   For **SCM**, select **Git**.
+    *   For **Repository URL**, enter the URL of your Git repository.
+    *   For **Script Path**, make sure it's set to `Jenkinsfile` (which is the default).
+
+3.  **Save and Run:**
+    *   Click **Save**.
+    *   Click on **Build Now** to run the pipeline.
+
+### Important Notes:
+
+*   **Docker Integration:** This `Jenkinsfile` assumes you have the **Docker Pipeline** plugin installed in Jenkins.
+*   **Docker Credentials:** The "Push Docker Image" stage is commented out. To push to a Docker registry (like Docker Hub), you'll need to:
+    1.  Store your Docker credentials in Jenkins (under **Manage Jenkins** > **Credentials**).
+    2.  Uncomment the `docker.withRegistry` block in the `Jenkinsfile` and replace `"docker-hub-credentials-id"` with the ID of your credentials.
+*   **`DOCKER_REGISTRY`:** Remember to replace `"your-docker-registry"` in the `Jenkinsfile` with your actual Docker Hub username or the URL of your private registry.
