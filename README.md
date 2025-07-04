@@ -89,3 +89,13 @@ To run Drush commands within the Drupal container, use `docker-compose exec drup
     docker-compose exec drupal vendor/bin/drush pm:uninstall <module_name> -y
     ```
     Replace `<module_name>` with the actual machine name of the module.
+
+## Database Export
+
+To export your local database to a SQL file in a `dbexports` folder:
+
+```bash
+mkdir -p dbexports && docker-compose exec db mysqldump -u drupal -ppassword drupal > dbexports/dump_$(date +%Y%m%d_%H%M%S).sql
+```
+
+Make sure your Docker Compose services (especially the `db` service) are running before executing this command.
