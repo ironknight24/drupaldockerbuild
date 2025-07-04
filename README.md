@@ -27,7 +27,7 @@ This project uses Docker to create a consistent development environment for the 
 
 3.  **Access the site:**
 
-    Once the containers are running, you can access your Drupal site at [http://localhost:8082](http://localhost:8082).
+    Once the containers are running, the Nginx web server will be serving your Drupal site at [http://localhost:8082](http://localhost:8082).
 
 ## Stopping the Environment
 

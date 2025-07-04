@@ -1,5 +1,5 @@
 # Use an official PHP image with Apache
-FROM php:8.3-apache
+FROM php:8.3-fpm
 
 # Set the working directory
 WORKDIR /var/www/html
@@ -28,18 +28,6 @@ RUN composer install --no-dev --no-interaction --optimize-autoloader
 # Copy the rest of the application
 COPY . .
 
-# Copy custom Apache configuration
-COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
-
-# Enable the new site
-RUN a2ensite 000-default.conf
-
-# Enable Apache rewrite module
-RUN a2enmod rewrite
-
-# Set permissions for the web directory
-RUN chown -R www-data:www-data /var/www/html
-
-# Expose port 80
-EXPOSE 80
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
 
