@@ -20,6 +20,8 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                    sh 'echo "Current user: $(whoami)"'
+                    sh 'echo "PATH: $PATH"'
                     docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
                 }
             }
