@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal-app
+  labels:
+    app: drupal
+spec:
+  replicas: 2 # Adjust as needed for load balancing
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      containers:
+      - name: drupal
+        image: drupal-site:latest # This will be replaced by your Jenkins pipeline with the actual image from your registry
+        ports:
+        - containerPort: 9000
+        env:
+        - name: DRUPAL_DB_HOST
+          value: "your-production-db-host" # IMPORTANT: Replace with your actual production DB host
+        - name: DRUPAL_DB_NAME
+          value: "drupal" # Replace with your actual production DB name
+        - name: DRUPAL_DB_USER
+          value: "drupal" # Replace with your actual production DB user
+        - name: DRUPAL_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: drupal-db-secret # Name of the Kubernetes Secret holding DB password
+              key: password # Key within the secret
+        volumeMounts:
+        - name: drupal-files-storage
+          mountPath: /var/www/html/web/sites/default/files
+      volumes:
+      - name: drupal-files-storage
+        persistentVolumeClaim:
+          claimName: drupal-files-pvc # Name of the PVC for Drupal files
