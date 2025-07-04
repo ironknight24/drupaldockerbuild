@@ -28,8 +28,17 @@ RUN composer install --no-dev --no-interaction --optimize-autoloader
 # Copy the rest of the application
 COPY . .
 
+# Copy custom Apache configuration
+COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
+
+# Enable the new site
+RUN a2ensite 000-default.conf
+
+# Enable Apache rewrite module
+RUN a2enmod rewrite
+
 # Set permissions for the web directory
-RUN chown -R www-data:www-data web/sites/default
+RUN chown -R www-data:www-data /var/www/html
 
 # Expose port 80
 EXPOSE 80
