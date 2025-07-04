@@ -68,3 +68,24 @@ This project includes a `Jenkinsfile` to automate the build process of the Docke
     1.  Store your Docker credentials in Jenkins (under **Manage Jenkins** > **Credentials**).
     2.  Uncomment the `docker.withRegistry` block in the `Jenkinsfile` and replace `"docker-hub-credentials-id"` with the ID of your credentials.
 *   **`DOCKER_REGISTRY`:** Remember to replace `"your-docker-registry"` in the `Jenkinsfile` with your actual Docker Hub username or the URL of your private registry.
+
+## Drush Commands
+
+To run Drush commands within the Drupal container, use `docker-compose exec drupal vendor/bin/drush` followed by the desired Drush command.
+
+*   **Clear Cache:**
+    ```bash
+    docker-compose exec drupal vendor/bin/drush cr
+    ```
+
+*   **Enable a Module:**
+    ```bash
+    docker-compose exec drupal vendor/bin/drush en <module_name> -y
+    ```
+    Replace `<module_name>` with the actual machine name of the module (e.g., `admin_toolbar`, `pathauto`).
+
+*   **Uninstall a Module:**
+    ```bash
+    docker-compose exec drupal vendor/bin/drush pm:uninstall <module_name> -y
+    ```
+    Replace `<module_name>` with the actual machine name of the module.
