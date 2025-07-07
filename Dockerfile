@@ -28,6 +28,9 @@ RUN composer install --no-dev --no-interaction --optimize-autoloader
 # Copy the rest of the application
 COPY . .
 
+# Ensure the web server has the correct permissions
+RUN chown -R www-data:www-data web/sites
+
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 
