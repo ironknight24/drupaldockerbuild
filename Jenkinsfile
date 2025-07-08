@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    options {
+        // Use a shallow clone to prevent timeouts with large repositories.
+        // This option applies to the default checkout at the start of the pipeline.
+        checkoutOptions(shallow: true)
+    }
+
     environment {
         DOCKER_IMAGE_NAME = "drupal-site"
         DOCKER_IMAGE_TAG = "${env.BUILD_NUMBER}"
@@ -9,17 +15,8 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Use a script block for more complex operations like shallow clone
-                script {
-                    // Add the shallow clone extension to the SCM object
-                    scm.extensions << [$class: 'CloneOption', shallow: true]
-                    // Checkout the modified SCM
-                    checkout scm
-                }
-            }
-        }
+        // The checkout is now handled automatically by the options block above,
+        // so we no longer need an explicit 'Checkout' stage.
 
         stage('Build Docker Image') {
             steps {
