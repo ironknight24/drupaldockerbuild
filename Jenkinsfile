@@ -11,9 +11,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the source code from your Git repository
-                // Use a shallow clone to prevent timeouts with large repositories.
-                checkout scm: scm, extensions: [[$class: 'CloneOption', shallow: true]]
+                // Use a script block for more complex operations like shallow clone
+                script {
+                    // Add the shallow clone extension to the SCM object
+                    scm.extensions << [$class: 'CloneOption', shallow: true]
+                    // Checkout the modified SCM
+                    checkout scm
+                }
             }
         }
 
