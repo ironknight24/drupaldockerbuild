@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     options {
-        // Use a shallow clone to prevent timeouts with large repositories.
-        // This option applies to the default checkout at the start of the pipeline.
-        checkoutOptions(shallow: true)
+        // Skip the default checkout so we can perform a manual, shallow one.
+        skipDefaultCheckout true
     }
 
     environment {
@@ -15,8 +14,17 @@ pipeline {
     }
 
     stages {
-        // The checkout is now handled automatically by the options block above,
-        // so we no longer need an explicit 'Checkout' stage.
+        stage('Checkout') {
+            steps {
+                // Manually perform a shallow checkout.
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    extensions: [[$class: 'CloneOption', shallow: true]],
+                    userRemoteConfigs: [[url: 'https://github.com/ironknight24/drupaldockerbuild.git']]
+                ])
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
