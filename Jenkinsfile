@@ -16,13 +16,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Manually perform a shallow checkout.
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    extensions: [[$class: 'CloneOption', shallow: true]],
-                    userRemoteConfigs: [[url: 'https://github.com/ironknight24/drupaldockerbuild.git']]
-                ])
+                // Manually perform a shallow checkout using the git step for maximum compatibility.
+                git url: 'https://github.com/ironknight24/drupaldockerbuild.git', 
+                    branch: 'main', 
+                    extensions: [[$class: 'CloneOption', shallow: true]]
             }
         }
 
