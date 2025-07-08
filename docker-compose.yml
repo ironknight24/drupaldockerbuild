@@ -9,6 +9,8 @@ services:
     container_name: drupal_app
     volumes:
       - drupal_code:/var/www/html
+      - ./composer.json:/var/www/html/composer.json
+      - ./composer.lock:/var/www/html/composer.lock
       - ./web/sites:/var/www/html/web/sites
       - ./web/modules:/var/www/html/web/modules
       - ./web/themes:/var/www/html/web/themes
@@ -27,6 +29,7 @@ services:
       - "8082:80"
     volumes:
       - drupal_code:/var/www/html
+      - ./web/sites:/var/www/html/web/sites
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - drupal
